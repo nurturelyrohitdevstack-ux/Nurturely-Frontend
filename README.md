@@ -85,8 +85,8 @@ MAIL_FROM=Nurturely CRM <no-reply@nurturely.io>
 
 ### Frontend (`d:\Anti-Websitees\Nurturely\.env.local`)
 ```env
-NEXT_PUBLIC_API=http://localhost:5000/api
-NEXT_PUBLIC_APP_NAME=Nurturely
+API_URL=http://localhost:5000/api
+APP_NAME=Nurturely
 ```
 
 ---

@@ -38,7 +38,10 @@ export default function AuthProvider({ children }) {
 
     const refresh = async () => {
       try {
-        const apiBase = process.env.NEXT_PUBLIC_API || "http://localhost:5000/api";
+        const apiBase =
+          process.env.API_URL ||
+          process.env.NEXT_PUBLIC_API ||
+          "http://localhost:5000/api";
         const res = await axios.post(
           `${apiBase}/auth/refresh-token`,
           {},
