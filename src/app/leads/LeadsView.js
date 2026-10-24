@@ -20,6 +20,7 @@ import {
   FaStar,
   FaCalendarAlt,
   FaRupeeSign,
+  FaEdit,
 } from "react-icons/fa";
 import { toast } from "sonner";
 import api from "@/lib/apiInstance";
@@ -207,6 +208,44 @@ export default function LeadsView() {
     nextFollowUpAt: "",
   });
 
+  // Edit Lead Modal state
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [editingLeadId, setEditingLeadId] = useState(null);
+  const [editFormData, setEditFormData] = useState({
+    fullName: "",
+    email: "",
+    phone: "",
+    company: "",
+    jobTitle: "",
+    source: "Website",
+    status: "New",
+    priority: "Medium",
+    estimatedValue: "",
+    requirements: "",
+    tags: "",
+    nextFollowUpAt: "",
+    assignedTo: "",
+    lostReason: "",
+  });
+  const [editSourceDropdownValue, setEditSourceDropdownValue] = useState("Website");
+  const [editCustomSourceInput, setEditCustomSourceInput] = useState("");
+  const [editActiveFollowUpPreset, setEditActiveFollowUpPreset] = useState("none");
+
+  // Query: Team members (for lead assignment by admin)
+  const { data: teamMembersData } = useQuery({
+    queryKey: ["team-members"],
+    queryFn: async () => {
+      try {
+        const res = await api.get("/team");
+        return res.data?.users || [];
+      } catch (e) {
+        return [];
+      }
+    },
+    enabled: user?.role === "admin",
+  });
+  const teamMembers = teamMembersData || [];
+
   // Query: Get Custom Templates from backend
   const { data: userTemplatesData } = useQuery({
     queryKey: ["templates"],
@@ -298,6 +337,85 @@ export default function LeadsView() {
     const formatted = `${year}-${month}-${day}T${hours}:${mins}`;
 
     setFormData((prev) => ({ ...prev, nextFollowUpAt: formatted }));
+  };
+
+  // Follow-up calculation helper for edit modal
+  const applyEditFollowUpPreset = (preset) => {
+    setEditActiveFollowUpPreset(preset);
+    if (preset === "none") {
+      setEditFormData((prev) => ({ ...prev, nextFollowUpAt: "" }));
+      return;
+    }
+
+    const now = new Date();
+    const target = new Date();
+
+    if (preset === "today") {
+      target.setTime(now.getTime() + 4 * 60 * 60 * 1000);
+    } else if (preset === "1d") {
+      target.setDate(now.getDate() + 1);
+      target.setHours(10, 0, 0, 0);
+    } else if (preset === "2d") {
+      target.setDate(now.getDate() + 2);
+      target.setHours(10, 0, 0, 0);
+    } else if (preset === "3d") {
+      target.setDate(now.getDate() + 3);
+      target.setHours(10, 0, 0, 0);
+    } else if (preset === "7d") {
+      target.setDate(now.getDate() + 7);
+      target.setHours(10, 0, 0, 0);
+    }
+
+    const year = target.getFullYear();
+    const month = String(target.getMonth() + 1).padStart(2, "0");
+    const day = String(target.getDate()).padStart(2, "0");
+    const hours = String(target.getHours()).padStart(2, "0");
+    const mins = String(target.getMinutes()).padStart(2, "0");
+    const formatted = `${year}-${month}-${day}T${hours}:${mins}`;
+
+    setEditFormData((prev) => ({ ...prev, nextFollowUpAt: formatted }));
+  };
+
+  const handleOpenEditModal = (lead) => {
+    setEditingLeadId(lead._id);
+    const isStandardSource = STANDARD_SOURCES.includes(lead.source);
+    setEditSourceDropdownValue(isStandardSource ? lead.source : "Custom / Other");
+    setEditCustomSourceInput(isStandardSource ? "" : lead.source || "");
+    setEditActiveFollowUpPreset("none");
+
+    let formattedFollowUp = "";
+    if (lead.nextFollowUpAt) {
+      try {
+        const d = new Date(lead.nextFollowUpAt);
+        if (!isNaN(d.getTime())) {
+          const pad = (n) => String(n).padStart(2, "0");
+          formattedFollowUp = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+        }
+      } catch (err) {
+        formattedFollowUp = "";
+      }
+    }
+
+    setEditFormData({
+      fullName: lead.fullName || "",
+      email: lead.email || "",
+      phone: lead.phone || "",
+      company: lead.company || "",
+      jobTitle: lead.jobTitle || "",
+      source: lead.source || "Website",
+      status: lead.status || "New",
+      priority: lead.priority || "Medium",
+      estimatedValue:
+        lead.estimatedValue !== undefined && lead.estimatedValue !== null
+          ? String(lead.estimatedValue)
+          : "",
+      requirements: lead.requirements || "",
+      tags: Array.isArray(lead.tags) ? lead.tags.join(", ") : lead.tags || "",
+      nextFollowUpAt: formattedFollowUp,
+      assignedTo: lead.assignedTo?._id || lead.assignedTo || "",
+      lostReason: lead.lostReason || "",
+    });
+    setEditModalOpen(true);
   };
 
   const resetCreateForm = () => {
@@ -475,6 +593,65 @@ export default function LeadsView() {
       toast.error(err.response?.data?.message || "Failed to create lead.");
     },
   });
+
+  // Mutation: Update Lead Details
+  const updateLeadMutation = useMutation({
+    mutationFn: async ({ leadId, payload }) => {
+      const res = await api.patch(`/leads/${leadId}`, payload);
+      return res.data;
+    },
+    onSuccess: (data) => {
+      toast.success(data.message || "Lead updated successfully!");
+      queryClient.invalidateQueries({ queryKey: ["leads"] });
+      queryClient.invalidateQueries({ queryKey: ["pipeline-leads"] });
+      queryClient.invalidateQueries({ queryKey: ["dashboard-summary"] });
+      if (selectedLead && selectedLead._id === editingLeadId) {
+        setSelectedLead(data.lead);
+        queryClient.invalidateQueries({ queryKey: ["lead-activities", selectedLead._id] });
+      }
+      setEditModalOpen(false);
+      setEditingLeadId(null);
+    },
+    onError: (err) => {
+      toast.error(err.response?.data?.message || "Failed to update lead.");
+    },
+  });
+
+  const handleEditSubmit = async (e) => {
+    e.preventDefault();
+    if (!editFormData.fullName.trim()) {
+      toast.error("Lead full name is required");
+      return;
+    }
+
+    const finalSource =
+      editSourceDropdownValue === "Custom / Other"
+        ? editCustomSourceInput.trim() || "Custom / Other"
+        : editSourceDropdownValue;
+
+    const payload = {
+      fullName: editFormData.fullName.trim(),
+      email: editFormData.email.trim(),
+      phone: editFormData.phone.trim(),
+      company: editFormData.company.trim(),
+      jobTitle: editFormData.jobTitle.trim(),
+      source: finalSource,
+      status: editFormData.status,
+      priority: editFormData.priority,
+      estimatedValue: editFormData.estimatedValue ? Number(editFormData.estimatedValue) : 0,
+      requirements: editFormData.requirements.trim(),
+      tags: editFormData.tags
+        ? editFormData.tags.split(",").map((t) => t.trim()).filter(Boolean)
+        : [],
+      nextFollowUpAt: editFormData.nextFollowUpAt
+        ? new Date(editFormData.nextFollowUpAt).toISOString()
+        : null,
+      ...(user?.role === "admin" && { assignedTo: editFormData.assignedTo || null }),
+      ...(editFormData.status === "Lost" && { lostReason: editFormData.lostReason.trim() }),
+    };
+
+    updateLeadMutation.mutate({ leadId: editingLeadId, payload });
+  };
 
   // Mutation: Update Lead Status
   const updateStatusMutation = useMutation({
@@ -835,15 +1012,29 @@ export default function LeadsView() {
                     </td>
 
                     <td className="py-3 px-4 text-right">
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setSelectedLead(lead);
-                        }}
-                        className="px-2.5 py-1 rounded-lg text-[11px] font-bold text-[#D6451B] bg-orange-50 hover:bg-orange-100 cursor-pointer"
-                      >
-                        Details
-                      </button>
+                      <div className="flex items-center justify-end gap-1.5">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleOpenEditModal(lead);
+                          }}
+                          className="px-2.5 py-1 rounded-lg text-[11px] font-bold text-amber-700 bg-amber-50 hover:bg-amber-100 flex items-center gap-1 cursor-pointer transition-colors"
+                          title="Edit Lead"
+                        >
+                          <FaEdit className="text-[10px]" />
+                          <span>Edit</span>
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectedLead(lead);
+                            setActiveTab("details");
+                          }}
+                          className="px-2.5 py-1 rounded-lg text-[11px] font-bold text-[#D6451B] bg-orange-50 hover:bg-orange-100 cursor-pointer"
+                        >
+                          Details
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -1375,6 +1566,351 @@ export default function LeadsView() {
         </div>
       )}
 
+      {/* Edit Lead Modal */}
+      {editModalOpen && (
+        <div className="fixed inset-0 z-60 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+          <div className="academy-card bg-white w-full max-w-2xl p-5 sm:p-6 shadow-2xl relative my-auto max-h-[90vh] overflow-y-auto">
+            {/* Header */}
+            <div className="flex items-center justify-between pb-3.5 border-b border-slate-100 sticky -top-5 sm:-top-6 bg-white z-10 pt-1">
+              <div className="flex items-center gap-2.5">
+                <div className="h-9 w-9 rounded-xl bg-orange-100 text-[#D6451B] flex items-center justify-center text-sm font-bold">
+                  <FaEdit />
+                </div>
+                <div>
+                  <h3 className="text-base font-bold text-slate-900">Edit Lead Details</h3>
+                  <p className="text-xs text-slate-500">Update contact information, pipeline stage, priority, and follow-up</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setEditModalOpen(false)}
+                className="p-1.5 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-100 cursor-pointer"
+              >
+                <FaTimes />
+              </button>
+            </div>
+
+            <form onSubmit={handleEditSubmit} className="mt-4 space-y-3.5 text-xs">
+              {/* Full Name & Company */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Client Full Name *</label>
+                  <input
+                    type="text"
+                    required
+                    value={editFormData.fullName}
+                    onChange={(e) => setEditFormData({ ...editFormData, fullName: e.target.value })}
+                    placeholder="e.g. Vikram Sharma"
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B]"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Company / Organization</label>
+                  <input
+                    type="text"
+                    value={editFormData.company}
+                    onChange={(e) => setEditFormData({ ...editFormData, company: e.target.value })}
+                    placeholder="e.g. ZenScale Technologies"
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B]"
+                  />
+                </div>
+              </div>
+
+              {/* Email & Phone */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Email Address</label>
+                  <input
+                    type="email"
+                    value={editFormData.email}
+                    onChange={(e) => setEditFormData({ ...editFormData, email: e.target.value })}
+                    placeholder="vikram@zenscale.com"
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B]"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Phone / WhatsApp Number</label>
+                  <input
+                    type="text"
+                    value={editFormData.phone}
+                    onChange={(e) => setEditFormData({ ...editFormData, phone: e.target.value })}
+                    placeholder="+91 98765 43210"
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B]"
+                  />
+                </div>
+              </div>
+
+              {/* Source & Job Title */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-3 bg-slate-50/80 rounded-xl border border-slate-100">
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Lead Source Channel</label>
+                  <select
+                    value={editSourceDropdownValue}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setEditSourceDropdownValue(val);
+                      if (val !== "Custom / Other") {
+                        setEditFormData((prev) => ({ ...prev, source: val }));
+                      }
+                    }}
+                    className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B] font-medium"
+                  >
+                    {STANDARD_SOURCES.map((src) => (
+                      <option key={src} value={src}>
+                        {src}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {editSourceDropdownValue === "Custom / Other" ? (
+                  <div>
+                    <label className="block font-bold text-slate-700 mb-1">
+                      Type Custom Source *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={editCustomSourceInput}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setEditCustomSourceInput(val);
+                        setEditFormData((prev) => ({ ...prev, source: val }));
+                      }}
+                      placeholder="e.g. BNI Chapter, Tech Expo 2026..."
+                      className="w-full px-3 py-2 bg-white border border-orange-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B]"
+                    />
+                  </div>
+                ) : (
+                  <div>
+                    <label className="block font-bold text-slate-700 mb-1">Job Title / Designation</label>
+                    <input
+                      type="text"
+                      value={editFormData.jobTitle}
+                      onChange={(e) => setEditFormData({ ...editFormData, jobTitle: e.target.value })}
+                      placeholder="e.g. Founder & CTO"
+                      className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B]"
+                    />
+                  </div>
+                )}
+              </div>
+
+              {/* Stage & Priority */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Pipeline Stage</label>
+                  <select
+                    value={editFormData.status}
+                    onChange={(e) => setEditFormData({ ...editFormData, status: e.target.value })}
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B] font-medium"
+                  >
+                    {ALL_STAGES.map((stg) => (
+                      <option key={stg} value={stg}>
+                        {stg}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Deal Priority</label>
+                  <select
+                    value={editFormData.priority}
+                    onChange={(e) => setEditFormData({ ...editFormData, priority: e.target.value })}
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B] font-medium"
+                  >
+                    <option value="Low">Low</option>
+                    <option value="Medium">Medium</option>
+                    <option value="High">High</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Lost Reason if status is Lost */}
+              {editFormData.status === "Lost" && (
+                <div>
+                  <label className="block font-bold text-rose-700 mb-1">Reason for Deal Lost</label>
+                  <input
+                    type="text"
+                    value={editFormData.lostReason}
+                    onChange={(e) => setEditFormData({ ...editFormData, lostReason: e.target.value })}
+                    placeholder="e.g. Budget constraints, selected competitor, postponed"
+                    className="w-full px-3 py-2 bg-rose-50 border border-rose-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 text-rose-900"
+                  />
+                </div>
+              )}
+
+              {/* Deal Value & Assignee (if admin) */}
+              <div className={`grid grid-cols-1 ${user?.role === "admin" ? "sm:grid-cols-2" : ""} gap-3`}>
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">
+                    Estimated Deal Value (₹ INR)
+                  </label>
+                  <div className="relative">
+                    <span className="absolute left-3 top-2.5 font-bold text-slate-400">₹</span>
+                    <input
+                      type="number"
+                      min="0"
+                      value={editFormData.estimatedValue}
+                      onChange={(e) => setEditFormData({ ...editFormData, estimatedValue: e.target.value })}
+                      placeholder="e.g. 75000"
+                      className="w-full pl-8 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B] font-semibold"
+                    />
+                  </div>
+                </div>
+
+                {user?.role === "admin" && (
+                  <div>
+                    <label className="block font-bold text-slate-700 mb-1">Assigned Team Representative</label>
+                    <select
+                      value={editFormData.assignedTo}
+                      onChange={(e) => setEditFormData({ ...editFormData, assignedTo: e.target.value })}
+                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B]"
+                    >
+                      <option value="">Unassigned</option>
+                      {teamMembers.map((member) => (
+                        <option key={member._id} value={member._id}>
+                          {member.fullName} ({member.role})
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+              </div>
+
+              {/* Next Follow-up (1-Click Auto Presets + Custom Date) */}
+              <div className="p-3 bg-slate-50/80 rounded-xl border border-slate-200/80 space-y-2">
+                <div className="flex items-center justify-between flex-wrap gap-1">
+                  <label className="block font-bold text-slate-800">
+                    Next Follow-up Scheduling:
+                  </label>
+                  {editFormData.nextFollowUpAt && (
+                    <span className="text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 flex items-center gap-1">
+                      <FaCalendarAlt className="text-[10px]" />
+                      <span>{new Date(editFormData.nextFollowUpAt).toLocaleString([], { dateStyle: "medium", timeStyle: "short" })}</span>
+                    </span>
+                  )}
+                </div>
+
+                {/* Auto Follow-up Pills */}
+                <div className="flex items-center gap-1.5 flex-wrap">
+                  {[
+                    { id: "none", label: "No Follow-up" },
+                    { id: "today", label: "Later Today (+4h)" },
+                    { id: "1d", label: "Tomorrow (+1d)" },
+                    { id: "2d", label: "In 2 Days (+2d)" },
+                    { id: "3d", label: "In 3 Days (+3d)" },
+                    { id: "7d", label: "In 1 Week (+7d)" },
+                  ].map((p) => {
+                    const active = editActiveFollowUpPreset === p.id;
+                    return (
+                      <button
+                        key={p.id}
+                        type="button"
+                        onClick={() => applyEditFollowUpPreset(p.id)}
+                        className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-all cursor-pointer ${
+                          active
+                            ? "bg-[#D6451B] text-white shadow-xs"
+                            : "bg-white text-slate-700 border border-slate-200 hover:bg-slate-100"
+                        }`}
+                      >
+                        {p.label}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Custom Date & Time Picker */}
+                <div className="pt-1.5 flex items-center gap-2">
+                  <input
+                    type="datetime-local"
+                    value={editFormData.nextFollowUpAt}
+                    onChange={(e) => {
+                      setEditActiveFollowUpPreset("custom");
+                      setEditFormData({ ...editFormData, nextFollowUpAt: e.target.value });
+                    }}
+                    className="px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs text-slate-700 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B]"
+                  />
+                  {editFormData.nextFollowUpAt && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setEditActiveFollowUpPreset("none");
+                        setEditFormData({ ...editFormData, nextFollowUpAt: "" });
+                      }}
+                      className="text-xs text-slate-500 hover:text-rose-600 underline cursor-pointer"
+                    >
+                      Clear
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {/* Tags */}
+              <div>
+                <label className="block font-bold text-slate-700 mb-1">Tags (Comma-separated)</label>
+                <input
+                  type="text"
+                  value={editFormData.tags}
+                  onChange={(e) => setEditFormData({ ...editFormData, tags: e.target.value })}
+                  placeholder="e.g. enterprise, urgent, referral, nextjs"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B]"
+                />
+                {editFormData.tags && (
+                  <div className="flex flex-wrap gap-1 mt-1.5">
+                    {editFormData.tags
+                      .split(",")
+                      .map((t) => t.trim())
+                      .filter(Boolean)
+                      .map((tag, idx) => (
+                        <span
+                          key={idx}
+                          className="px-2 py-0.5 rounded-md bg-orange-50 text-[#D6451B] text-[10px] font-semibold border border-orange-100"
+                        >
+                          #{tag}
+                        </span>
+                      ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Scope & Requirements Notes */}
+              <div>
+                <label className="block font-bold text-slate-700 mb-1">
+                  Project Scope / Requirements Notes
+                </label>
+                <textarea
+                  rows={3}
+                  value={editFormData.requirements}
+                  onChange={(e) => setEditFormData({ ...editFormData, requirements: e.target.value })}
+                  placeholder="Notes, requirements, budget discussion, client pain points..."
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B]"
+                />
+              </div>
+
+              {/* Modal Actions */}
+              <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-100 sticky -bottom-5 sm:-bottom-6 bg-white z-10 pb-1">
+                <button
+                  type="button"
+                  onClick={() => setEditModalOpen(false)}
+                  className="px-4 py-2 rounded-xl text-slate-600 bg-slate-100 hover:bg-slate-200 font-semibold cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={updateLeadMutation.isPending}
+                  className="px-5 py-2 rounded-xl text-white font-bold bg-gradient-to-r from-orange-500 to-[#D6451B] hover:opacity-95 shadow-xs cursor-pointer disabled:opacity-50"
+                >
+                  {updateLeadMutation.isPending ? "Updating Lead..." : "Save Changes"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
       {/* Lead Details Side Drawer / Modal */}
       {selectedLead && (
         <div className="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-end">
@@ -1390,12 +1926,22 @@ export default function LeadsView() {
                   <p className="text-xs text-slate-500">{selectedLead.company || "No company name"}</p>
                 </div>
               </div>
-              <button
-                onClick={() => setSelectedLead(null)}
-                className="p-2 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-100 cursor-pointer"
-              >
-                <FaTimes />
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => handleOpenEditModal(selectedLead)}
+                  className="px-3 py-1.5 rounded-lg text-xs font-bold text-amber-700 bg-amber-50 hover:bg-amber-100 flex items-center gap-1.5 cursor-pointer transition-colors"
+                  title="Edit Lead Details"
+                >
+                  <FaEdit className="text-xs" />
+                  <span>Edit Lead</span>
+                </button>
+                <button
+                  onClick={() => setSelectedLead(null)}
+                  className="p-2 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-100 cursor-pointer"
+                >
+                  <FaTimes />
+                </button>
+              </div>
             </div>
 
             {/* Stage Quick Switcher with all 9 stages */}
@@ -1628,12 +2174,21 @@ export default function LeadsView() {
                   <span>Delete Lead</span>
                 </button>
               )}
-              <button
-                onClick={() => setSelectedLead(null)}
-                className="ml-auto px-4 py-2 rounded-xl text-xs font-bold bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 cursor-pointer"
-              >
-                Close Drawer
-              </button>
+              <div className="ml-auto flex items-center gap-2">
+                <button
+                  onClick={() => handleOpenEditModal(selectedLead)}
+                  className="px-3.5 py-2 rounded-xl text-xs font-bold text-amber-700 bg-amber-50 hover:bg-amber-100 flex items-center gap-1.5 cursor-pointer transition-colors"
+                >
+                  <FaEdit className="text-xs" />
+                  <span>Edit Lead</span>
+                </button>
+                <button
+                  onClick={() => setSelectedLead(null)}
+                  className="px-4 py-2 rounded-xl text-xs font-bold bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 cursor-pointer"
+                >
+                  Close Drawer
+                </button>
+              </div>
             </div>
           </div>
         </div>
