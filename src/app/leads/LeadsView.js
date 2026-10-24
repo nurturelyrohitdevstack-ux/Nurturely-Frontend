@@ -796,7 +796,7 @@ export default function LeadsView() {
             resetCreateForm();
             setCreateModalOpen(true);
           }}
-          className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-orange-500 to-[#D6451B] hover:opacity-95 shadow-sm shadow-orange-500/20 transition-all cursor-pointer"
+          className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-emerald-600 to-teal-700 hover:opacity-95 shadow-sm shadow-emerald-600/20 transition-all cursor-pointer"
         >
           <FaPlus className="text-xs" />
           <span>Add New Lead</span>
@@ -817,7 +817,7 @@ export default function LeadsView() {
                 setPage(1);
               }}
               placeholder="Search by lead name, company, email, phone, tags..."
-              className="w-full pl-9 pr-3.5 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B] transition-all"
+              className="w-full pl-9 pr-3.5 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all"
             />
           </div>
 
@@ -829,7 +829,7 @@ export default function LeadsView() {
                 setPriorityFilter(e.target.value);
                 setPage(1);
               }}
-              className="w-full px-3 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B] transition-all"
+              className="w-full px-3 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all"
             >
               <option value="all">All Priorities</option>
               <option value="High">High Priority</option>
@@ -846,7 +846,7 @@ export default function LeadsView() {
                 setSourceFilter(e.target.value);
                 setPage(1);
               }}
-              className="w-full px-3 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B] transition-all"
+              className="w-full px-3 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all"
             >
               <option value="all">All Sources</option>
               <option value="Website">Website</option>
@@ -869,7 +869,7 @@ export default function LeadsView() {
                 setSortBy(sb);
                 setOrder(ord);
               }}
-              className="w-full px-3 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B] transition-all"
+              className="w-full px-3 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all"
             >
               <option value="createdAt-desc">Newest First</option>
               <option value="createdAt-asc">Oldest First</option>
@@ -894,7 +894,7 @@ export default function LeadsView() {
                 }}
                 className={`px-3 py-1.5 rounded-full font-semibold transition-all shrink-0 cursor-pointer ${
                   active
-                    ? "bg-[#D6451B] text-white shadow-xs"
+                    ? "bg-emerald-600 text-white shadow-xs"
                     : "bg-slate-100 text-slate-600 hover:bg-slate-200"
                 }`}
               >
@@ -909,12 +909,12 @@ export default function LeadsView() {
       <div className="academy-card bg-white overflow-hidden">
         {isLoading ? (
           <div className="p-12 text-center text-xs text-slate-500">
-            <div className="h-6 w-6 border-2 border-orange-500 border-t-transparent rounded-full animate-spin mx-auto mb-2" />
+            <div className="h-6 w-6 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto mb-2" />
             Loading leads...
           </div>
         ) : leads.length === 0 ? (
           <div className="p-12 text-center">
-            <div className="h-12 w-12 rounded-full bg-orange-50 text-[#D6451B] mx-auto flex items-center justify-center text-xl mb-3">
+            <div className="h-12 w-12 rounded-full bg-emerald-50 text-emerald-700 mx-auto flex items-center justify-center text-xl mb-3">
               <FaFilter />
             </div>
             <h3 className="text-sm font-bold text-slate-800">No leads in pipeline yet</h3>
@@ -926,7 +926,7 @@ export default function LeadsView() {
                 resetCreateForm();
                 setCreateModalOpen(true);
               }}
-              className="mt-4 px-4 py-2 rounded-xl text-xs font-bold text-white bg-[#D6451B] hover:opacity-95 cursor-pointer"
+              className="mt-4 px-4 py-2 rounded-xl text-xs font-bold text-white bg-emerald-600 hover:opacity-95 cursor-pointer"
             >
               Add First Lead
             </button>
@@ -954,11 +954,11 @@ export default function LeadsView() {
                       setSelectedLead(lead);
                       setActiveTab("details");
                     }}
-                    className="hover:bg-orange-50/30 transition-all cursor-pointer group"
+                    className="hover:bg-emerald-50/30 transition-all cursor-pointer group"
                   >
                     <td className="py-3 px-4">
                       <div className="flex flex-col min-w-0">
-                        <span className="font-bold text-slate-900 group-hover:text-[#D6451B] transition-colors">
+                        <span className="font-bold text-slate-900 group-hover:text-emerald-700 transition-colors">
                           {lead.fullName}
                         </span>
                         <span className="text-[11px] text-slate-500 truncate">
@@ -1030,7 +1030,7 @@ export default function LeadsView() {
                             setSelectedLead(lead);
                             setActiveTab("details");
                           }}
-                          className="px-2.5 py-1 rounded-lg text-[11px] font-bold text-[#D6451B] bg-orange-50 hover:bg-orange-100 cursor-pointer"
+                          className="px-2.5 py-1 rounded-lg text-[11px] font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 cursor-pointer"
                         >
                           Details
                         </button>
@@ -1090,17 +1090,17 @@ export default function LeadsView() {
             </div>
 
             {/* Quick Template Presets Bar */}
-            <div className="mt-4 p-3.5 bg-gradient-to-r from-orange-50/90 to-amber-50/60 border border-orange-200/80 rounded-2xl space-y-2.5">
+            <div className="mt-4 p-3.5 bg-gradient-to-r from-emerald-50/90 to-teal-50/60 border border-emerald-200/80 rounded-2xl space-y-2.5">
               <div className="flex items-center justify-between flex-wrap gap-2">
                 <div className="flex items-center gap-1.5 text-xs font-bold text-slate-900">
-                  <FaMagic className="text-[#D6451B]" />
+                  <FaMagic className="text-emerald-700" />
                   <span>Deal Templates (Click to auto-fill):</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <button
                     type="button"
                     onClick={() => setDirectTemplateModalOpen(true)}
-                    className="text-[11px] font-bold text-[#D6451B] bg-white border border-orange-200 px-2.5 py-1 rounded-lg hover:bg-orange-50 transition-colors flex items-center gap-1 cursor-pointer"
+                    className="text-[11px] font-bold text-emerald-700 bg-white border border-emerald-200 px-2.5 py-1 rounded-lg hover:bg-emerald-50 transition-colors flex items-center gap-1 cursor-pointer"
                   >
                     <FaStar className="text-[10px]" />
                     <span>+ Save As Template</span>
@@ -1120,7 +1120,7 @@ export default function LeadsView() {
               {/* Custom User Templates (if any) */}
               {customTemplates.length > 0 && (
                 <div className="space-y-1">
-                  <span className="text-[10px] font-extrabold uppercase tracking-wider text-orange-800/80">
+                  <span className="text-[10px] font-extrabold uppercase tracking-wider text-emerald-800/80">
                     My Custom Templates:
                   </span>
                   <div className="flex items-center gap-2 overflow-x-auto pb-1 text-xs">
@@ -1131,7 +1131,7 @@ export default function LeadsView() {
                           key={tmpl._id}
                           className={`shrink-0 rounded-xl border flex items-center transition-all ${
                             isSelected
-                              ? "bg-[#D6451B] text-white border-[#D6451B] shadow-xs"
+                              ? "bg-emerald-600 text-white border-emerald-600 shadow-xs"
                               : "bg-white text-slate-700 border-amber-300 hover:bg-amber-50/50"
                           }`}
                         >
@@ -1144,7 +1144,7 @@ export default function LeadsView() {
                             <span>{tmpl.name}</span>
                             <span
                               className={`text-[10px] px-1.5 py-0.2 rounded-md font-bold ${
-                                isSelected ? "bg-white/20 text-white" : "bg-orange-100 text-[#D6451B]"
+                                isSelected ? "bg-white/20 text-white" : "bg-emerald-100 text-emerald-700"
                               }`}
                             >
                               ₹{Number(tmpl.estimatedValue || 0).toLocaleString("en-IN")}
@@ -1196,21 +1196,21 @@ export default function LeadsView() {
                         onClick={() => handleApplyTemplate(tmpl)}
                         className={`shrink-0 px-2.5 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 border transition-all cursor-pointer ${
                           isSelected
-                            ? "bg-[#D6451B] text-white border-[#D6451B] shadow-xs"
-                            : "bg-white text-slate-700 border-orange-200/80 hover:bg-orange-100/60"
+                            ? "bg-emerald-600 text-white border-emerald-600 shadow-xs"
+                            : "bg-white text-slate-700 border-emerald-200/80 hover:bg-emerald-100/60"
                         }`}
                       >
                         <span>{tmpl.name}</span>
                         <span
                           className={`text-[10px] px-1.5 py-0.2 rounded-md font-bold ${
-                            isSelected ? "bg-white/20 text-white" : "bg-orange-100 text-[#D6451B]"
+                            isSelected ? "bg-white/20 text-white" : "bg-emerald-100 text-emerald-700"
                           }`}
                         >
                           ₹{tmpl.estimatedValue.toLocaleString("en-IN")}
                         </span>
                         <span
                           className={`text-[9px] px-1 py-0.2 rounded font-semibold ${
-                            isSelected ? "bg-white/20 text-white" : "bg-orange-100/80 text-orange-800"
+                            isSelected ? "bg-white/20 text-white" : "bg-emerald-100/80 text-emerald-800"
                           }`}
                         >
                           +{tmpl.followUpPreset || "1d"}
@@ -1242,7 +1242,7 @@ export default function LeadsView() {
                     value={formData.fullName}
                     onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                     placeholder="e.g. Vikram Sharma"
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B]"
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"
                   />
                 </div>
 
@@ -1253,7 +1253,7 @@ export default function LeadsView() {
                     value={formData.company}
                     onChange={(e) => setFormData({ ...formData, company: e.target.value })}
                     placeholder="e.g. ZenScale Technologies"
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B]"
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"
                   />
                 </div>
               </div>
@@ -1266,7 +1266,7 @@ export default function LeadsView() {
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     placeholder="vikram@zenscale.com"
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B]"
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"
                   />
                 </div>
 
@@ -1277,7 +1277,7 @@ export default function LeadsView() {
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     placeholder="+91 98765 43210"
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B]"
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"
                   />
                 </div>
               </div>
@@ -1289,7 +1289,7 @@ export default function LeadsView() {
                   <select
                     value={sourceDropdownValue}
                     onChange={(e) => handleSourceDropdownChange(e.target.value)}
-                    className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B] font-medium"
+                    className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 font-medium"
                   >
                     {STANDARD_SOURCES.map((src) => (
                       <option key={src} value={src}>
@@ -1310,7 +1310,7 @@ export default function LeadsView() {
                       value={customSourceInput}
                       onChange={(e) => handleCustomSourceInputChange(e.target.value)}
                       placeholder="e.g. BNI Chapter, Tech Expo 2026, Twitter DM..."
-                      className="w-full px-3 py-2 bg-white border border-orange-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B]"
+                      className="w-full px-3 py-2 bg-white border border-emerald-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"
                     />
                   </div>
                 ) : (
@@ -1321,7 +1321,7 @@ export default function LeadsView() {
                       value={formData.jobTitle}
                       onChange={(e) => setFormData({ ...formData, jobTitle: e.target.value })}
                       placeholder="e.g. Founder & CTO"
-                      className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B]"
+                      className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"
                     />
                   </div>
                 )}
@@ -1334,7 +1334,7 @@ export default function LeadsView() {
                   <select
                     value={formData.status}
                     onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B]"
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"
                   >
                     {ALL_STAGES.map((stg) => (
                       <option key={stg} value={stg}>
@@ -1349,7 +1349,7 @@ export default function LeadsView() {
                   <select
                     value={formData.priority}
                     onChange={(e) => setFormData({ ...formData, priority: e.target.value })}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B]"
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"
                   >
                     <option value="Low">Low</option>
                     <option value="Medium">Medium</option>
@@ -1371,7 +1371,7 @@ export default function LeadsView() {
                     value={formData.estimatedValue}
                     onChange={(e) => setFormData({ ...formData, estimatedValue: e.target.value })}
                     placeholder="e.g. 75000"
-                    className="w-full pl-8 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B] font-semibold"
+                    className="w-full pl-8 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 font-semibold"
                   />
                 </div>
               </div>
@@ -1409,8 +1409,8 @@ export default function LeadsView() {
                         onClick={() => applyFollowUpPreset(p.id)}
                         className={`px-2.5 py-1 rounded-lg text-xs font-semibold border transition-all cursor-pointer ${
                           active
-                            ? "bg-[#D6451B] text-white border-[#D6451B] shadow-2xs font-bold"
-                            : "bg-white text-slate-700 border-slate-200 hover:bg-orange-50 hover:border-orange-200"
+                            ? "bg-emerald-600 text-white border-emerald-600 shadow-2xs font-bold"
+                            : "bg-white text-slate-700 border-slate-200 hover:bg-emerald-50 hover:border-emerald-200"
                         }`}
                       >
                         {p.label}
@@ -1428,7 +1428,7 @@ export default function LeadsView() {
                       setActiveFollowUpPreset("custom");
                       setFormData({ ...formData, nextFollowUpAt: e.target.value });
                     }}
-                    className="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B]"
+                    className="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"
                   />
                 </div>
               </div>
@@ -1441,7 +1441,7 @@ export default function LeadsView() {
                   value={formData.tags}
                   onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
                   placeholder="e.g. web-app, nextjs, high-budget, enterprise"
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B]"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"
                 />
               </div>
 
@@ -1453,18 +1453,18 @@ export default function LeadsView() {
                   value={formData.requirements}
                   onChange={(e) => setFormData({ ...formData, requirements: e.target.value })}
                   placeholder="Notes about client requirements, project scope, deliverable milestones, etc."
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B]"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"
                 />
               </div>
 
               {/* Option to Save as a Template */}
-              <div className="p-3.5 rounded-xl border border-dashed border-orange-300 bg-orange-50/50 space-y-2">
+              <div className="p-3.5 rounded-xl border border-dashed border-emerald-300 bg-emerald-50/50 space-y-2">
                 <label className="flex items-center gap-2 cursor-pointer font-bold text-slate-800 text-xs">
                   <input
                     type="checkbox"
                     checked={saveAsTemplate}
                     onChange={(e) => setSaveAsTemplate(e.target.checked)}
-                    className="rounded text-[#D6451B] focus:ring-orange-500 h-4 w-4"
+                    className="rounded text-emerald-700 focus:ring-emerald-500 h-4 w-4"
                   />
                   <span>⭐ Also save these deal settings as a reusable template for future leads</span>
                 </label>
@@ -1475,7 +1475,7 @@ export default function LeadsView() {
                       value={customTemplateName}
                       onChange={(e) => setCustomTemplateName(e.target.value)}
                       placeholder="Template Name (e.g. Custom MVP Package, E-Com Growth Retainer)..."
-                      className="w-full px-3 py-2 bg-white border border-orange-300 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B]"
+                      className="w-full px-3 py-2 bg-white border border-emerald-300 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"
                     />
                     <span className="text-[10px] text-slate-500 mt-1 block">
                       This template will be saved to your account so you can apply it with 1 click anytime.
@@ -1495,7 +1495,7 @@ export default function LeadsView() {
                 <button
                   type="submit"
                   disabled={createLeadMutation.isPending}
-                  className="px-5 py-2 rounded-xl text-white font-bold bg-gradient-to-r from-orange-500 to-[#D6451B] hover:opacity-95 shadow-xs cursor-pointer disabled:opacity-50"
+                  className="px-5 py-2 rounded-xl text-white font-bold bg-gradient-to-r from-emerald-600 to-teal-700 hover:opacity-95 shadow-xs cursor-pointer disabled:opacity-50"
                 >
                   {createLeadMutation.isPending ? "Saving Lead..." : "Save Lead"}
                 </button>
@@ -1531,7 +1531,7 @@ export default function LeadsView() {
                   value={directTemplateName}
                   onChange={(e) => setDirectTemplateName(e.target.value)}
                   placeholder="e.g. Next.js SaaS MVP ₹75k"
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B]"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"
                 />
               </div>
 
@@ -1556,7 +1556,7 @@ export default function LeadsView() {
                 <button
                   type="submit"
                   disabled={createTemplateMutation.isPending}
-                  className="px-4 py-1.5 rounded-lg text-white font-bold bg-[#D6451B] hover:opacity-95 cursor-pointer disabled:opacity-50"
+                  className="px-4 py-1.5 rounded-lg text-white font-bold bg-emerald-600 hover:opacity-95 cursor-pointer disabled:opacity-50"
                 >
                   {createTemplateMutation.isPending ? "Saving..." : "Save Template"}
                 </button>
@@ -1573,7 +1573,7 @@ export default function LeadsView() {
             {/* Header */}
             <div className="flex items-center justify-between pb-3.5 border-b border-slate-100 sticky -top-5 sm:-top-6 bg-white z-10 pt-1">
               <div className="flex items-center gap-2.5">
-                <div className="h-9 w-9 rounded-xl bg-orange-100 text-[#D6451B] flex items-center justify-center text-sm font-bold">
+                <div className="h-9 w-9 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-sm font-bold">
                   <FaEdit />
                 </div>
                 <div>
@@ -1600,7 +1600,7 @@ export default function LeadsView() {
                     value={editFormData.fullName}
                     onChange={(e) => setEditFormData({ ...editFormData, fullName: e.target.value })}
                     placeholder="e.g. Vikram Sharma"
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B]"
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"
                   />
                 </div>
 
@@ -1611,7 +1611,7 @@ export default function LeadsView() {
                     value={editFormData.company}
                     onChange={(e) => setEditFormData({ ...editFormData, company: e.target.value })}
                     placeholder="e.g. ZenScale Technologies"
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B]"
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"
                   />
                 </div>
               </div>
@@ -1625,7 +1625,7 @@ export default function LeadsView() {
                     value={editFormData.email}
                     onChange={(e) => setEditFormData({ ...editFormData, email: e.target.value })}
                     placeholder="vikram@zenscale.com"
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B]"
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"
                   />
                 </div>
 
@@ -1636,7 +1636,7 @@ export default function LeadsView() {
                     value={editFormData.phone}
                     onChange={(e) => setEditFormData({ ...editFormData, phone: e.target.value })}
                     placeholder="+91 98765 43210"
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B]"
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"
                   />
                 </div>
               </div>
@@ -1654,7 +1654,7 @@ export default function LeadsView() {
                         setEditFormData((prev) => ({ ...prev, source: val }));
                       }
                     }}
-                    className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B] font-medium"
+                    className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 font-medium"
                   >
                     {STANDARD_SOURCES.map((src) => (
                       <option key={src} value={src}>
@@ -1679,7 +1679,7 @@ export default function LeadsView() {
                         setEditFormData((prev) => ({ ...prev, source: val }));
                       }}
                       placeholder="e.g. BNI Chapter, Tech Expo 2026..."
-                      className="w-full px-3 py-2 bg-white border border-orange-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B]"
+                      className="w-full px-3 py-2 bg-white border border-emerald-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"
                     />
                   </div>
                 ) : (
@@ -1690,7 +1690,7 @@ export default function LeadsView() {
                       value={editFormData.jobTitle}
                       onChange={(e) => setEditFormData({ ...editFormData, jobTitle: e.target.value })}
                       placeholder="e.g. Founder & CTO"
-                      className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B]"
+                      className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"
                     />
                   </div>
                 )}
@@ -1703,7 +1703,7 @@ export default function LeadsView() {
                   <select
                     value={editFormData.status}
                     onChange={(e) => setEditFormData({ ...editFormData, status: e.target.value })}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B] font-medium"
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 font-medium"
                   >
                     {ALL_STAGES.map((stg) => (
                       <option key={stg} value={stg}>
@@ -1718,7 +1718,7 @@ export default function LeadsView() {
                   <select
                     value={editFormData.priority}
                     onChange={(e) => setEditFormData({ ...editFormData, priority: e.target.value })}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B] font-medium"
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 font-medium"
                   >
                     <option value="Low">Low</option>
                     <option value="Medium">Medium</option>
@@ -1755,7 +1755,7 @@ export default function LeadsView() {
                       value={editFormData.estimatedValue}
                       onChange={(e) => setEditFormData({ ...editFormData, estimatedValue: e.target.value })}
                       placeholder="e.g. 75000"
-                      className="w-full pl-8 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B] font-semibold"
+                      className="w-full pl-8 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 font-semibold"
                     />
                   </div>
                 </div>
@@ -1766,7 +1766,7 @@ export default function LeadsView() {
                     <select
                       value={editFormData.assignedTo}
                       onChange={(e) => setEditFormData({ ...editFormData, assignedTo: e.target.value })}
-                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B]"
+                      className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"
                     >
                       <option value="">Unassigned</option>
                       {teamMembers.map((member) => (
@@ -1811,7 +1811,7 @@ export default function LeadsView() {
                         onClick={() => applyEditFollowUpPreset(p.id)}
                         className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-all cursor-pointer ${
                           active
-                            ? "bg-[#D6451B] text-white shadow-xs"
+                            ? "bg-emerald-600 text-white shadow-xs"
                             : "bg-white text-slate-700 border border-slate-200 hover:bg-slate-100"
                         }`}
                       >
@@ -1830,7 +1830,7 @@ export default function LeadsView() {
                       setEditActiveFollowUpPreset("custom");
                       setEditFormData({ ...editFormData, nextFollowUpAt: e.target.value });
                     }}
-                    className="px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs text-slate-700 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B]"
+                    className="px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs text-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"
                   />
                   {editFormData.nextFollowUpAt && (
                     <button
@@ -1855,7 +1855,7 @@ export default function LeadsView() {
                   value={editFormData.tags}
                   onChange={(e) => setEditFormData({ ...editFormData, tags: e.target.value })}
                   placeholder="e.g. enterprise, urgent, referral, nextjs"
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B]"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"
                 />
                 {editFormData.tags && (
                   <div className="flex flex-wrap gap-1 mt-1.5">
@@ -1866,7 +1866,7 @@ export default function LeadsView() {
                       .map((tag, idx) => (
                         <span
                           key={idx}
-                          className="px-2 py-0.5 rounded-md bg-orange-50 text-[#D6451B] text-[10px] font-semibold border border-orange-100"
+                          className="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 text-[10px] font-semibold border border-emerald-100"
                         >
                           #{tag}
                         </span>
@@ -1885,7 +1885,7 @@ export default function LeadsView() {
                   value={editFormData.requirements}
                   onChange={(e) => setEditFormData({ ...editFormData, requirements: e.target.value })}
                   placeholder="Notes, requirements, budget discussion, client pain points..."
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B]"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"
                 />
               </div>
 
@@ -1901,7 +1901,7 @@ export default function LeadsView() {
                 <button
                   type="submit"
                   disabled={updateLeadMutation.isPending}
-                  className="px-5 py-2 rounded-xl text-white font-bold bg-gradient-to-r from-orange-500 to-[#D6451B] hover:opacity-95 shadow-xs cursor-pointer disabled:opacity-50"
+                  className="px-5 py-2 rounded-xl text-white font-bold bg-gradient-to-r from-emerald-600 to-teal-700 hover:opacity-95 shadow-xs cursor-pointer disabled:opacity-50"
                 >
                   {updateLeadMutation.isPending ? "Updating Lead..." : "Save Changes"}
                 </button>
@@ -1918,7 +1918,7 @@ export default function LeadsView() {
             {/* Drawer Header */}
             <div className="p-5 border-b border-slate-100 flex items-center justify-between shrink-0">
               <div className="flex items-center gap-3">
-                <div className="h-10 w-10 rounded-xl bg-orange-100 text-[#D6451B] flex items-center justify-center font-bold text-base">
+                <div className="h-10 w-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-base">
                   {selectedLead.fullName.charAt(0)}
                 </div>
                 <div>
@@ -1961,7 +1961,7 @@ export default function LeadsView() {
                     lostReason: reason,
                   });
                 }}
-                className="px-3 py-1.5 bg-white border border-slate-200 rounded-lg font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-orange-500/20"
+                className="px-3 py-1.5 bg-white border border-slate-200 rounded-lg font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
               >
                 {ALL_STAGES.map((stg) => (
                   <option key={stg} value={stg}>
@@ -1977,7 +1977,7 @@ export default function LeadsView() {
                 onClick={() => setActiveTab("details")}
                 className={`py-3 px-3 border-b-2 transition-all cursor-pointer ${
                   activeTab === "details"
-                    ? "border-[#D6451B] text-[#D6451B]"
+                    ? "border-emerald-600 text-emerald-700"
                     : "border-transparent hover:text-slate-900"
                 }`}
               >
@@ -1987,7 +1987,7 @@ export default function LeadsView() {
                 onClick={() => setActiveTab("activities")}
                 className={`py-3 px-3 border-b-2 transition-all cursor-pointer ${
                   activeTab === "activities"
-                    ? "border-[#D6451B] text-[#D6451B]"
+                    ? "border-emerald-600 text-emerald-700"
                     : "border-transparent hover:text-slate-900"
                 }`}
               >
@@ -2000,10 +2000,10 @@ export default function LeadsView() {
               {activeTab === "details" ? (
                 <div className="space-y-4 text-xs">
                   {/* Lead Metrics Card with INR */}
-                  <div className="grid grid-cols-2 gap-3 p-3.5 rounded-xl bg-orange-50/50 border border-orange-100">
+                  <div className="grid grid-cols-2 gap-3 p-3.5 rounded-xl bg-emerald-50/50 border border-emerald-100">
                     <div>
                       <span className="text-slate-500 text-[11px]">Estimated Value</span>
-                      <p className="text-lg font-extrabold text-[#D6451B]">
+                      <p className="text-lg font-extrabold text-emerald-700">
                         ₹{Number(selectedLead.estimatedValue || 0).toLocaleString("en-IN")}
                       </p>
                     </div>
@@ -2050,7 +2050,7 @@ export default function LeadsView() {
                         {selectedLead.tags.map((tag, i) => (
                           <span
                             key={i}
-                            className="px-2 py-0.5 rounded-md bg-orange-100/70 text-[#D6451B] font-semibold text-[10px]"
+                            className="px-2 py-0.5 rounded-md bg-emerald-100/70 text-emerald-700 font-semibold text-[10px]"
                           >
                             #{tag}
                           </span>
@@ -2083,7 +2083,7 @@ export default function LeadsView() {
                 /* Activity Timeline Tab */
                 <div className="space-y-4">
                   {/* Log Activity Form */}
-                  <form onSubmit={handleAddActivity} className="p-3.5 rounded-xl border border-orange-100 bg-orange-50/40 space-y-2.5 text-xs">
+                  <form onSubmit={handleAddActivity} className="p-3.5 rounded-xl border border-emerald-100 bg-emerald-50/40 space-y-2.5 text-xs">
                     <span className="font-bold text-slate-800 block">Log New Interaction or Note</span>
                     <div className="grid grid-cols-3 gap-2">
                       {["note", "call", "email"].map((type) => (
@@ -2093,7 +2093,7 @@ export default function LeadsView() {
                           onClick={() => setNewActivityType(type)}
                           className={`py-1 rounded-lg font-bold capitalize transition-all cursor-pointer ${
                             newActivityType === type
-                              ? "bg-[#D6451B] text-white"
+                              ? "bg-emerald-600 text-white"
                               : "bg-white border border-slate-200 text-slate-600"
                           }`}
                         >
@@ -2107,20 +2107,20 @@ export default function LeadsView() {
                       value={newActivitySummary}
                       onChange={(e) => setNewActivitySummary(e.target.value)}
                       placeholder="Summary (e.g. Discussed pricing proposal)"
-                      className="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-orange-500"
+                      className="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-emerald-500"
                     />
                     <textarea
                       rows="2"
                       value={newActivityDetails}
                       onChange={(e) => setNewActivityDetails(e.target.value)}
                       placeholder="Detailed notes (optional)..."
-                      className="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-orange-500"
+                      className="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-emerald-500"
                     />
                     <div className="flex justify-end">
                       <button
                         type="submit"
                         disabled={addActivityMutation.isPending}
-                        className="px-3.5 py-1.5 rounded-lg bg-[#D6451B] text-white font-bold cursor-pointer hover:opacity-95 disabled:opacity-50"
+                        className="px-3.5 py-1.5 rounded-lg bg-emerald-600 text-white font-bold cursor-pointer hover:opacity-95 disabled:opacity-50"
                       >
                         {addActivityMutation.isPending ? "Logging..." : "Record Activity"}
                       </button>

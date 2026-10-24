@@ -42,13 +42,14 @@ export default function AuthProvider({ children }) {
           process.env.API_URL ||
           process.env.NEXT_PUBLIC_API_URL ||
           process.env.NEXT_PUBLIC_API ||
-          "http://localhost:5000/api";
+          "http://localhost:5001/api";
+
         const res = await axios.post(
           `${apiBase}/auth/refresh-token`,
           {},
           {
             withCredentials: true,
-            timeout: 3000,
+            timeout: 15000,
           }
         );
 

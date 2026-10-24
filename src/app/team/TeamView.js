@@ -120,7 +120,7 @@ export default function TeamView() {
 
         <button
           onClick={() => setModalOpen(true)}
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-orange-500 to-[#D6451B] hover:opacity-95 shadow-sm shadow-orange-500/20 transition-all cursor-pointer"
+          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-emerald-600 to-teal-700 hover:opacity-95 shadow-sm shadow-emerald-600/20 transition-all cursor-pointer"
         >
           <FaUserPlus className="text-xs" />
           <span>Invite / Add Member</span>
@@ -131,7 +131,7 @@ export default function TeamView() {
       <div className="academy-card bg-white overflow-hidden">
         {isLoading ? (
           <div className="p-12 text-center text-xs text-slate-500">
-            <div className="h-6 w-6 border-2 border-orange-500 border-t-transparent rounded-full animate-spin mx-auto mb-2" />
+            <div className="h-6 w-6 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto mb-2" />
             Loading team roster...
           </div>
         ) : team.length === 0 ? (
@@ -156,10 +156,10 @@ export default function TeamView() {
                 {team.map((member) => {
                   const isSelf = member._id === currentUser?.id || member._id === currentUser?._id;
                   return (
-                    <tr key={member._id} className="hover:bg-orange-50/20 transition-all">
+                    <tr key={member._id} className="hover:bg-emerald-50/20 transition-all">
                       <td className="py-3.5 px-4">
                         <div className="flex items-center gap-3">
-                          <div className="h-9 w-9 rounded-xl bg-orange-100 text-[#D6451B] font-bold flex items-center justify-center shrink-0">
+                          <div className="h-9 w-9 rounded-xl bg-emerald-100 text-emerald-700 font-bold flex items-center justify-center shrink-0">
                             {member.fullName.charAt(0)}
                           </div>
                           <div className="flex flex-col min-w-0">
@@ -188,7 +188,7 @@ export default function TeamView() {
                               role: e.target.value,
                             })
                           }
-                          className="px-2.5 py-1 text-xs font-bold rounded-lg border border-slate-200 bg-slate-50 text-slate-800 focus:outline-none focus:ring-1 focus:ring-orange-500 disabled:opacity-70"
+                          className="px-2.5 py-1 text-xs font-bold rounded-lg border border-slate-200 bg-slate-50 text-slate-800 focus:outline-none focus:ring-1 focus:ring-emerald-500 disabled:opacity-70"
                         >
                           <option value="admin">Administrator</option>
                           <option value="sales">Sales Representative</option>
@@ -265,7 +265,7 @@ export default function TeamView() {
                   value={form.fullName}
                   onChange={(e) => setForm({ ...form, fullName: e.target.value })}
                   placeholder="e.g. Maya Lin"
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B]"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"
                 />
               </div>
 
@@ -277,7 +277,7 @@ export default function TeamView() {
                   value={form.email}
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
                   placeholder="maya@company.com"
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B]"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"
                 />
               </div>
 
@@ -290,7 +290,7 @@ export default function TeamView() {
                   value={form.password}
                   onChange={(e) => setForm({ ...form, password: e.target.value })}
                   placeholder="••••••••••••"
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B]"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"
                 />
               </div>
 
@@ -300,7 +300,7 @@ export default function TeamView() {
                   <select
                     value={form.role}
                     onChange={(e) => setForm({ ...form, role: e.target.value })}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B]"
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"
                   >
                     <option value="sales">Sales Rep</option>
                     <option value="admin">Admin</option>
@@ -314,7 +314,7 @@ export default function TeamView() {
                     value={form.phone}
                     onChange={(e) => setForm({ ...form, phone: e.target.value })}
                     placeholder="+1 (555) 000-0000"
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B]"
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"
                   />
                 </div>
               </div>
@@ -330,7 +330,7 @@ export default function TeamView() {
                 <button
                   type="submit"
                   disabled={createMemberMutation.isPending}
-                  className="px-4 py-2 rounded-xl bg-gradient-to-r from-orange-500 to-[#D6451B] text-white font-bold hover:opacity-95 cursor-pointer disabled:opacity-50"
+                  className="px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-700 text-white font-bold hover:opacity-95 cursor-pointer disabled:opacity-50"
                 >
                   {createMemberMutation.isPending ? "Adding..." : "Add Member"}
                 </button>

@@ -6,7 +6,7 @@ const api = axios.create({
     process.env.API_URL ||
     process.env.NEXT_PUBLIC_API_URL ||
     process.env.NEXT_PUBLIC_API ||
-    "http://localhost:5000/api",
+    "http://localhost:5001/api",
   withCredentials: true,
   timeout: 15000,
 });
@@ -41,6 +41,7 @@ api.interceptors.response.use(
 
       try {
         const res = await api.post("/auth/refresh-token");
+
         login({
           user: res.data.user,
           accessToken: res.data.accessToken,

@@ -189,7 +189,7 @@ export default function TasksView() {
 
         <button
           onClick={() => setModalOpen(true)}
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-orange-500 to-[#D6451B] hover:opacity-95 shadow-sm shadow-orange-500/20 transition-all cursor-pointer"
+          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-emerald-600 to-teal-700 hover:opacity-95 shadow-sm shadow-emerald-600/20 transition-all cursor-pointer"
         >
           <FaPlus className="text-xs" />
           <span>Schedule Task</span>
@@ -200,7 +200,7 @@ export default function TasksView() {
       <div className="academy-card p-3 bg-white flex items-center gap-2 overflow-x-auto text-xs font-bold">
         {[
           { id: "all", label: "All Active", count: counts.pending },
-          { id: "today", label: "Due Today", count: counts.today, badgeColor: "bg-orange-500 text-white" },
+          { id: "today", label: "Due Today", count: counts.today, badgeColor: "bg-emerald-600 text-white" },
           { id: "upcoming", label: "Upcoming", count: counts.pending - counts.today - counts.overdue },
           { id: "overdue", label: "Overdue", count: counts.overdue, badgeColor: "bg-rose-500 text-white" },
           { id: "completed", label: "Completed", count: counts.completed },
@@ -212,7 +212,7 @@ export default function TasksView() {
               onClick={() => setActiveTab(tab.id)}
               className={`flex items-center gap-2 px-3.5 py-2 rounded-xl transition-all cursor-pointer shrink-0 ${
                 active
-                  ? "bg-[#D6451B] text-white shadow-xs"
+                  ? "bg-emerald-600 text-white shadow-xs"
                   : "text-slate-600 hover:bg-slate-100"
               }`}
             >
@@ -237,7 +237,7 @@ export default function TasksView() {
       <div className="academy-card bg-white divide-y divide-slate-100">
         {isLoading ? (
           <div className="p-12 text-center text-xs text-slate-500">
-            <div className="h-6 w-6 border-2 border-orange-500 border-t-transparent rounded-full animate-spin mx-auto mb-2" />
+            <div className="h-6 w-6 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto mb-2" />
             Loading follow-up tasks...
           </div>
         ) : tasks.length === 0 ? (
@@ -271,7 +271,7 @@ export default function TasksView() {
                         ? "bg-blue-50 text-blue-600"
                         : task.type === "Email"
                         ? "bg-purple-50 text-purple-600"
-                        : "bg-orange-50 text-[#D6451B]"
+                        : "bg-emerald-50 text-emerald-700"
                     }`}
                   >
                     {task.type === "Call" ? (
@@ -309,7 +309,7 @@ export default function TasksView() {
                       {task.lead ? (
                         <Link
                           href="/leads"
-                          className="font-bold text-[#D6451B] hover:underline"
+                          className="font-bold text-emerald-700 hover:underline"
                         >
                           {task.lead.fullName} ({task.lead.company || "No company"})
                         </Link>
@@ -400,7 +400,7 @@ export default function TasksView() {
                   value={taskForm.title}
                   onChange={(e) => setTaskForm({ ...taskForm, title: e.target.value })}
                   placeholder="e.g. Call client regarding contract proposal"
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B]"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"
                 />
               </div>
 
@@ -410,7 +410,7 @@ export default function TasksView() {
                   required
                   value={taskForm.leadId}
                   onChange={(e) => setTaskForm({ ...taskForm, leadId: e.target.value })}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B]"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"
                 >
                   <option value="">Select a prospective client...</option>
                   {(leadsData || []).map((lead) => (
@@ -427,7 +427,7 @@ export default function TasksView() {
                   <select
                     value={taskForm.type}
                     onChange={(e) => setTaskForm({ ...taskForm, type: e.target.value })}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B]"
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"
                   >
                     <option value="Call">Phone Call</option>
                     <option value="Email">Email Follow-up</option>
@@ -441,7 +441,7 @@ export default function TasksView() {
                   <select
                     value={taskForm.priority}
                     onChange={(e) => setTaskForm({ ...taskForm, priority: e.target.value })}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B]"
+                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"
                   >
                     <option value="Low">Low</option>
                     <option value="Medium">Medium</option>
@@ -476,8 +476,8 @@ export default function TasksView() {
                         onClick={() => applyTaskDuePreset(p.id)}
                         className={`px-2 py-1 rounded-lg text-xs font-semibold border transition-all cursor-pointer ${
                           active
-                            ? "bg-[#D6451B] text-white border-[#D6451B] shadow-2xs"
-                            : "bg-white text-slate-700 border-slate-200 hover:bg-orange-50"
+                            ? "bg-emerald-600 text-white border-emerald-600 shadow-2xs"
+                            : "bg-white text-slate-700 border-slate-200 hover:bg-emerald-50"
                         }`}
                       >
                         {p.label}
@@ -494,7 +494,7 @@ export default function TasksView() {
                     setActiveDuePreset("custom");
                     setTaskForm({ ...taskForm, dueAt: e.target.value });
                   }}
-                  className="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B]"
+                  className="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"
                 />
               </div>
 
@@ -505,7 +505,7 @@ export default function TasksView() {
                   value={taskForm.notes}
                   onChange={(e) => setTaskForm({ ...taskForm, notes: e.target.value })}
                   placeholder="Key discussion points or questions to ask..."
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B]"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"
                 />
               </div>
 
@@ -520,7 +520,7 @@ export default function TasksView() {
                 <button
                   type="submit"
                   disabled={createTaskMutation.isPending}
-                  className="px-4 py-2 rounded-xl bg-gradient-to-r from-orange-500 to-[#D6451B] text-white font-bold hover:opacity-95 cursor-pointer disabled:opacity-50"
+                  className="px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-700 text-white font-bold hover:opacity-95 cursor-pointer disabled:opacity-50"
                 >
                   {createTaskMutation.isPending ? "Scheduling..." : "Schedule Follow-up"}
                 </button>

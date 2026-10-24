@@ -2,7 +2,7 @@
 
 **Nurturely** is a maintainable, high-performance CRM built for managing prospective clients, sales pipelines, client interaction histories, and follow-up tasks for digital agencies, web development, SEO, and high-ticket B2B/B2C services.
 
-The design language, responsive drawer navigation, and components are crafted to match the design system of **inquisitvemind** (`#D6451B` terracotta accent, soft slate neutrals, `academy-card` containers, smooth badges, and responsive drawers).
+The design language, responsive drawer navigation, and components are crafted to match the brand identity of **Nurturely** (Deep Navy `#0A2540` and Emerald Growth `#059669` accents, soft slate neutrals, `academy-card` containers, smooth badges, and responsive drawers).
 
 ---
 

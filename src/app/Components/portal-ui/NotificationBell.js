@@ -10,12 +10,12 @@ export default function NotificationBell({ count = 2 }) {
     <div className="relative">
       <button
         onClick={() => setOpen(!open)}
-        className="relative flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 hover:text-[#D6451B] hover:border-orange-200 hover:bg-orange-50/50 transition-all shadow-xs"
+        className="relative flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 hover:text-emerald-600 hover:border-emerald-200 hover:bg-emerald-50/50 transition-all shadow-xs cursor-pointer"
         aria-label="Notifications"
       >
         <FaBell className="text-sm" />
         {count > 0 && (
-          <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#D6451B] text-[10px] font-bold text-white shadow-xs">
+          <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-emerald-600 text-[10px] font-bold text-white shadow-xs">
             {count}
           </span>
         )}
@@ -30,7 +30,7 @@ export default function NotificationBell({ count = 2 }) {
           <div className="absolute right-0 mt-2 w-80 rounded-2xl border border-slate-200 bg-white p-4 shadow-xl z-40 text-left">
             <div className="flex items-center justify-between pb-2 border-b border-slate-100">
               <span className="font-bold text-sm text-slate-800">Notifications</span>
-              <span className="text-[11px] font-semibold text-[#D6451B] bg-orange-50 px-2 py-0.5 rounded-full">
+              <span className="text-[11px] font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200/60 px-2 py-0.5 rounded-full">
                 {count} New
               </span>
             </div>

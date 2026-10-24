@@ -3,10 +3,12 @@
 :root {
   --background: #f8fafc;
   --foreground: #0f172a;
-  --primary: #d6451b;
-  --primary-hover: #b83812;
-  --primary-light: #fff5f2;
-  --primary-50: #fff7f5;
+  --primary: #059669;
+  --primary-hover: #047857;
+  --primary-light: #ecfdf5;
+  --primary-50: #f0fdf4;
+  --navy: #0a2540;
+  --navy-light: #0f3060;
   --card: #ffffff;
   --card-border: #e2e8f0;
   --muted: #64748b;

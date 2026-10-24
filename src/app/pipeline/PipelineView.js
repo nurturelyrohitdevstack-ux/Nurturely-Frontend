@@ -25,7 +25,7 @@ const STAGES = [
   { id: "In Negotiation", label: "In Negotiation", color: "border-t-indigo-500 text-indigo-900 bg-indigo-50/40" },
   { id: "Won", label: "Won Deals", color: "border-t-emerald-500 text-emerald-900 bg-emerald-50/40" },
   { id: "Lost", label: "Lost Deals", color: "border-t-rose-400 text-rose-900 bg-rose-50/40" },
-  { id: "On Hold", label: "On Hold", color: "border-t-orange-400 text-orange-900 bg-orange-50/40" },
+  { id: "On Hold", label: "On Hold", color: "border-t-amber-400 text-amber-900 bg-amber-50/40" },
 ];
 
 export default function PipelineView() {
@@ -118,7 +118,7 @@ export default function PipelineView() {
       {/* Kanban Board Container */}
       {isLoading ? (
         <div className="p-16 text-center text-xs text-slate-500">
-          <div className="h-6 w-6 border-2 border-orange-500 border-t-transparent rounded-full animate-spin mx-auto mb-2" />
+          <div className="h-6 w-6 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto mb-2" />
           Loading sales pipeline...
         </div>
       ) : (
@@ -143,7 +143,7 @@ export default function PipelineView() {
                     <span className="font-bold text-xs text-slate-800 tracking-tight">
                       {col.label}
                     </span>
-                    <span className="text-[11px] font-extrabold text-[#D6451B]">
+                    <span className="text-[11px] font-extrabold text-emerald-700">
                       ₹{totalValue.toLocaleString("en-IN")}
                     </span>
                   </div>
@@ -157,7 +157,7 @@ export default function PipelineView() {
                   {colLeads.map((lead) => (
                     <div
                       key={lead._id}
-                      className="academy-card p-3.5 bg-white hover:border-orange-300 transition-all shadow-xs group"
+                      className="academy-card p-3.5 bg-white hover:border-emerald-300 transition-all shadow-xs group"
                     >
                       {/* Priority pill and value */}
                       <div className="flex items-center justify-between mb-2">
@@ -179,7 +179,7 @@ export default function PipelineView() {
                       </div>
 
                       {/* Lead Title & Company */}
-                      <h4 className="font-bold text-xs text-slate-900 group-hover:text-[#D6451B] transition-colors leading-snug">
+                      <h4 className="font-bold text-xs text-slate-900 group-hover:text-emerald-700 transition-colors leading-snug">
                         {lead.fullName}
                       </h4>
                       <p className="text-[11px] text-slate-500 truncate mt-0.5">
@@ -207,7 +207,7 @@ export default function PipelineView() {
                         <select
                           value={lead.status}
                           onChange={(e) => handleStageChange(lead._id, e.target.value)}
-                          className="text-[11px] font-semibold text-slate-700 bg-slate-50 border border-slate-200 rounded px-1.5 py-0.5 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                          className="text-[11px] font-semibold text-slate-700 bg-slate-50 border border-slate-200 rounded px-1.5 py-0.5 focus:outline-none focus:ring-1 focus:ring-emerald-500"
                         >
                           {STAGES.map((s) => (
                             <option key={s.id} value={s.id}>
@@ -251,7 +251,7 @@ export default function PipelineView() {
                   value={lostReasonInput}
                   onChange={(e) => setLostReasonInput(e.target.value)}
                   placeholder="e.g. Budget constraints, chose competitor, timing delayed to Q3..."
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B]"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"
                 />
               </div>
 

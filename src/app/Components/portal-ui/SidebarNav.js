@@ -60,7 +60,7 @@ export default function SidebarNav({ children }) {
         <div className="flex items-center gap-2.5">
           <button
             onClick={() => setMobileOpen(true)}
-            className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-slate-700 hover:bg-orange-50 hover:border-orange-300 active:scale-95 transition-all"
+            className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-slate-700 hover:bg-emerald-50 hover:border-emerald-300 active:scale-95 transition-all cursor-pointer"
             aria-label="Open Navigation Menu"
           >
             <FaBars className="text-base text-slate-800" />
@@ -74,7 +74,7 @@ export default function SidebarNav({ children }) {
           <NotificationBell />
           <Link
             href="/profile"
-            className="flex h-9 w-9 items-center justify-center rounded-full bg-orange-100 text-[#D6451B] font-bold text-xs border border-orange-200 shadow-xs"
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-100 text-emerald-800 font-bold text-xs border border-emerald-200 shadow-xs"
           >
             {user?.fullName?.charAt(0) || "U"}
           </Link>
@@ -104,22 +104,22 @@ export default function SidebarNav({ children }) {
                   <Logo className="h-8 w-8" textClassName="text-lg" />
                   <button
                     onClick={() => setMobileOpen(false)}
-                    className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100"
+                    className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 cursor-pointer"
                   >
                     <FaTimes className="text-lg" />
                   </button>
                 </div>
 
                 {/* User quick info badge */}
-                <div className="my-4 p-3 rounded-xl bg-orange-50/60 border border-orange-100/80 flex items-center gap-3">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#D6451B] text-white font-bold text-xs">
+                <div className="my-4 p-3 rounded-xl bg-emerald-50/70 border border-emerald-100/90 flex items-center gap-3">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-[#0A2540] to-teal-700 text-white font-bold text-xs shadow-xs">
                     {user?.fullName?.charAt(0) || "U"}
                   </div>
                   <div className="flex flex-col min-w-0">
                     <span className="font-bold text-xs text-slate-900 truncate">
                       {user?.fullName || "CRM User"}
                     </span>
-                    <span className="text-[11px] font-semibold text-[#D6451B] capitalize">
+                    <span className="text-[11px] font-semibold text-emerald-700 capitalize">
                       {user?.role === "admin" ? "Administrator" : "Sales Representative"}
                     </span>
                   </div>
@@ -137,8 +137,8 @@ export default function SidebarNav({ children }) {
                         onClick={() => setMobileOpen(false)}
                         className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all ${
                           active
-                            ? "bg-gradient-to-r from-orange-500 to-[#D6451B] text-white shadow-sm shadow-orange-500/20"
-                            : "text-slate-600 hover:bg-orange-50/70 hover:text-[#D6451B]"
+                            ? "bg-gradient-to-r from-emerald-600 to-teal-700 text-white shadow-sm shadow-emerald-600/20"
+                            : "text-slate-600 hover:bg-emerald-50/70 hover:text-emerald-700"
                         }`}
                       >
                         <Icon className={`text-base ${active ? "text-white" : "text-slate-400"}`} />
@@ -153,7 +153,7 @@ export default function SidebarNav({ children }) {
               <div className="pt-4 border-t border-slate-100 shrink-0">
                 <button
                   onClick={handleLogout}
-                  className="w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-xs font-bold text-rose-600 bg-rose-50 hover:bg-rose-100 transition-all"
+                  className="w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-xs font-bold text-rose-600 bg-rose-50 hover:bg-rose-100 transition-all cursor-pointer"
                 >
                   <FaSignOutAlt />
                   <span>Sign Out</span>
@@ -178,16 +178,16 @@ export default function SidebarNav({ children }) {
           </div>
 
           {/* User Profile Card */}
-          <div className="my-5 p-3 rounded-2xl bg-orange-50/50 border border-orange-100 flex items-center justify-between shrink-0">
+          <div className="my-5 p-3 rounded-2xl bg-emerald-50/60 border border-emerald-100/90 flex items-center justify-between shrink-0">
             <div className="flex items-center gap-3 min-w-0">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#D6451B] to-orange-500 text-white font-bold text-sm shadow-xs">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#0A2540] to-teal-700 text-white font-bold text-sm shadow-xs">
                 {user?.fullName?.charAt(0) || "U"}
               </div>
               <div className="flex flex-col min-w-0">
                 <span className="font-bold text-xs text-slate-900 truncate">
                   {user?.fullName || "User"}
                 </span>
-                <span className="text-[11px] font-semibold text-[#D6451B] capitalize truncate">
+                <span className="text-[11px] font-semibold text-emerald-700 capitalize truncate">
                   {user?.role === "admin" ? "Workspace Admin" : "Sales Team"}
                 </span>
               </div>
@@ -206,8 +206,8 @@ export default function SidebarNav({ children }) {
                   href={item.href}
                   className={`flex items-center gap-3 px-3.5 py-3 rounded-xl text-sm font-semibold transition-all ${
                     active
-                      ? "bg-gradient-to-r from-orange-500 to-[#D6451B] text-white shadow-sm shadow-orange-500/20"
-                      : "text-slate-600 hover:bg-orange-50/70 hover:text-[#D6451B]"
+                      ? "bg-gradient-to-r from-emerald-600 to-teal-700 text-white shadow-sm shadow-emerald-600/20"
+                      : "text-slate-600 hover:bg-emerald-50/70 hover:text-emerald-700"
                   }`}
                 >
                   <Icon className={`text-base ${active ? "text-white" : "text-slate-400"}`} />

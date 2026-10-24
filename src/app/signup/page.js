@@ -164,7 +164,7 @@ export default function SignUpPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-orange-50/30 to-slate-100 flex items-center justify-center p-4 sm:p-6 py-10">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-emerald-50/30 to-slate-100 flex items-center justify-center p-4 sm:p-6 py-10">
       <motion.div
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
@@ -188,7 +188,7 @@ export default function SignUpPage() {
             <div>
               <div className="flex items-center justify-between mb-1">
                 <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                  Work Email <span className="text-[#D6451B]">*</span>
+                  Work Email <span className="text-emerald-700">*</span>
                 </label>
                 {emailVerified && (
                   <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
@@ -208,7 +208,7 @@ export default function SignUpPage() {
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="name@agency.com"
-                  className="w-full pl-9 pr-28 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B] transition-all disabled:bg-slate-100 disabled:text-slate-500"
+                  className="w-full pl-9 pr-28 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all disabled:bg-slate-100 disabled:text-slate-500"
                 />
 
                 {!emailVerified && (
@@ -216,7 +216,7 @@ export default function SignUpPage() {
                     type="button"
                     onClick={handleSendOtp}
                     disabled={sendingOtp || timer > 0}
-                    className="absolute right-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-white bg-gradient-to-r from-orange-500 to-[#D6451B] hover:opacity-95 disabled:opacity-50 cursor-pointer transition-all shadow-xs"
+                    className="absolute right-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-white bg-gradient-to-r from-emerald-600 to-teal-700 hover:opacity-95 disabled:opacity-50 cursor-pointer transition-all shadow-xs"
                   >
                     {sendingOtp ? (
                       <span className="flex items-center gap-1">
@@ -241,11 +241,11 @@ export default function SignUpPage() {
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: "auto" }}
                   exit={{ opacity: 0, height: 0 }}
-                  className="p-3.5 rounded-2xl bg-orange-50/70 border border-orange-200/90 space-y-2 overflow-hidden"
+                  className="p-3.5 rounded-2xl bg-emerald-50/70 border border-emerald-200/90 space-y-2 overflow-hidden"
                 >
                   <div className="flex items-center justify-between text-xs">
                     <span className="font-bold text-slate-800 flex items-center gap-1.5">
-                      <FaKey className="text-[#D6451B]" />
+                      <FaKey className="text-emerald-700" />
                       Enter 6-Digit Code
                     </span>
                     <span className="text-[11px] text-slate-500">Sent to {formData.email}</span>
@@ -258,7 +258,7 @@ export default function SignUpPage() {
                       value={otp}
                       onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
                       placeholder="e.g. 549281"
-                      className="flex-1 px-3 py-2 text-center text-sm font-mono tracking-widest font-bold bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B]"
+                      className="flex-1 px-3 py-2 text-center text-sm font-mono tracking-widest font-bold bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"
                     />
                     <button
                       type="button"
@@ -277,7 +277,7 @@ export default function SignUpPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                  Full Name <span className="text-[#D6451B]">*</span>
+                  Full Name <span className="text-emerald-700">*</span>
                 </label>
                 <div className="relative">
                   <FaUser className="absolute left-3.5 top-3.5 text-slate-400 text-xs" />
@@ -288,7 +288,7 @@ export default function SignUpPage() {
                     value={formData.fullName}
                     onChange={handleChange}
                     placeholder="e.g. Marcus Vance"
-                    className="w-full pl-9 pr-3 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B] transition-all"
+                    className="w-full pl-9 pr-3 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all"
                   />
                 </div>
               </div>
@@ -305,7 +305,7 @@ export default function SignUpPage() {
                     value={formData.companyName}
                     onChange={handleChange}
                     placeholder="e.g. Vance Digital"
-                    className="w-full pl-9 pr-3 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B] transition-all"
+                    className="w-full pl-9 pr-3 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all"
                   />
                 </div>
               </div>
@@ -321,7 +321,7 @@ export default function SignUpPage() {
                   name="role"
                   value={formData.role}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B] transition-all"
+                  className="w-full px-3 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all"
                 >
                   <option value="admin">Admin (Workspace Owner)</option>
                   <option value="sales">Sales Representative</option>
@@ -340,7 +340,7 @@ export default function SignUpPage() {
                     value={formData.phone}
                     onChange={handleChange}
                     placeholder="+1 (555) 000-0000"
-                    className="w-full pl-9 pr-3 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B] transition-all"
+                    className="w-full pl-9 pr-3 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all"
                   />
                 </div>
               </div>
@@ -349,7 +349,7 @@ export default function SignUpPage() {
             {/* 4. Password */}
             <div>
               <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                Password <span className="text-[#D6451B]">*</span>
+                Password <span className="text-emerald-700">*</span>
               </label>
               <div className="relative">
                 <FaLock className="absolute left-3.5 top-3.5 text-slate-400 text-xs" />
@@ -361,7 +361,7 @@ export default function SignUpPage() {
                   value={formData.password}
                   onChange={handleChange}
                   placeholder="Minimum 6 characters"
-                  className="w-full pl-9 pr-10 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B] transition-all"
+                  className="w-full pl-9 pr-10 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition-all"
                 />
                 <button
                   type="button"
@@ -378,7 +378,7 @@ export default function SignUpPage() {
             <button
               type="submit"
               disabled={loading || !emailVerified}
-              className="w-full mt-2 flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-orange-500 to-[#D6451B] hover:opacity-95 active:scale-[0.99] shadow-md shadow-orange-500/20 transition-all cursor-pointer disabled:opacity-50"
+              className="w-full mt-2 flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-emerald-600 to-teal-700 hover:opacity-95 active:scale-[0.99] shadow-md shadow-emerald-600/20 transition-all cursor-pointer disabled:opacity-50"
             >
               {loading ? (
                 <span className="flex items-center gap-2">
@@ -400,7 +400,7 @@ export default function SignUpPage() {
               Already have an account?{" "}
               <Link
                 href="/login"
-                className="font-bold text-[#D6451B] hover:underline"
+                className="font-bold text-emerald-700 hover:underline"
               >
                 Sign In
               </Link>

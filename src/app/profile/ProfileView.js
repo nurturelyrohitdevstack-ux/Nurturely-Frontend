@@ -68,7 +68,7 @@ export default function ProfileView() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Profile Card */}
         <div className="academy-card p-6 bg-white text-center flex flex-col items-center">
-          <div className="h-20 w-20 rounded-2xl bg-gradient-to-br from-[#D6451B] to-orange-500 text-white font-extrabold text-2xl flex items-center justify-center shadow-md shadow-orange-500/20 mb-3">
+          <div className="h-20 w-20 rounded-2xl bg-gradient-to-br from-[#0A2540] via-[#0F3060] to-teal-700 text-white font-extrabold text-2xl flex items-center justify-center shadow-md shadow-emerald-600/20 mb-3">
             {user?.fullName?.charAt(0) || "U"}
           </div>
 
@@ -76,7 +76,7 @@ export default function ProfileView() {
           <p className="text-xs text-slate-500">{user?.email}</p>
 
           <div className="mt-3">
-            <span className="academy-badge bg-orange-50 text-[#D6451B] border border-orange-200 uppercase tracking-wider text-[10px]">
+            <span className="academy-badge bg-emerald-50 text-emerald-700 border border-emerald-200 uppercase tracking-wider text-[10px]">
               {user?.role === "admin" ? "Workspace Admin" : "Sales Representative"}
             </span>
           </div>
@@ -96,7 +96,7 @@ export default function ProfileView() {
         {/* Change Password Form */}
         <div className="md:col-span-2 academy-card p-6 bg-white">
           <div className="flex items-center gap-2 mb-4 pb-3 border-b border-slate-100">
-            <FaShieldAlt className="text-[#D6451B]" />
+            <FaShieldAlt className="text-emerald-700" />
             <h3 className="text-sm font-bold text-slate-900">Change Password</h3>
           </div>
 
@@ -111,7 +111,7 @@ export default function ProfileView() {
                 value={currentPassword}
                 onChange={(e) => setCurrentPassword(e.target.value)}
                 placeholder="Enter current password"
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B]"
+                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"
               />
             </div>
 
@@ -127,7 +127,7 @@ export default function ProfileView() {
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
                   placeholder="Min 6 characters"
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B]"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"
                 />
               </div>
 
@@ -142,7 +142,7 @@ export default function ProfileView() {
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="Re-enter new password"
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-[#D6451B]"
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"
                 />
               </div>
             </div>
@@ -151,7 +151,7 @@ export default function ProfileView() {
               <button
                 type="submit"
                 disabled={loading}
-                className="px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-orange-500 to-[#D6451B] hover:opacity-95 cursor-pointer disabled:opacity-50 shadow-sm shadow-orange-500/20 transition-all"
+                className="px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-emerald-600 to-teal-700 hover:opacity-95 cursor-pointer disabled:opacity-50 shadow-sm shadow-emerald-600/20 transition-all"
               >
                 {loading ? "Updating..." : "Update Password"}
               </button>
