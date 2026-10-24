@@ -4,6 +4,7 @@ import useAuthStore from "@/store/authStore";
 const api = axios.create({
   baseURL:
     process.env.API_URL ||
+    process.env.NEXT_PUBLIC_API_URL ||
     process.env.NEXT_PUBLIC_API ||
     "http://localhost:5000/api",
   withCredentials: true,

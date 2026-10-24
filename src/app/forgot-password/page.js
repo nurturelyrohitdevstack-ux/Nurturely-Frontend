@@ -12,7 +12,6 @@ export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
-  const [devResetUrl, setDevResetUrl] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,12 +22,9 @@ export default function ForgotPasswordPage() {
 
     setLoading(true);
     try {
-      const res = await api.post("/auth/forgot-password", { email });
+      await api.post("/auth/forgot-password", { email });
       setSent(true);
-      if (res.data?.devResetUrl) {
-        setDevResetUrl(res.data.devResetUrl);
-      }
-      toast.success("Password reset instructions generated.");
+      toast.success("Password reset instructions dispatched to your email.");
     } catch (err) {
       toast.error(
         err.response?.data?.message || "Failed to process request. Please try again."
@@ -64,18 +60,6 @@ export default function ForgotPasswordPage() {
               <p className="text-sm text-slate-700">
                 If an account exists for <strong>{email}</strong>, a password reset email has been dispatched.
               </p>
-
-              {devResetUrl && (
-                <div className="p-3 bg-amber-50 rounded-xl border border-amber-200 text-left text-xs text-amber-900">
-                  <p className="font-bold mb-1">Development Mode Link:</p>
-                  <a
-                    href={devResetUrl}
-                    className="text-[#D6451B] underline break-all font-mono text-[11px]"
-                  >
-                    {devResetUrl}
-                  </a>
-                </div>
-              )}
 
               <Link
                 href="/login"

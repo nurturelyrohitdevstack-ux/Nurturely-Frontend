@@ -4,6 +4,7 @@ const nextConfig = {
   env: {
     API_URL:
       process.env.API_URL ||
+      process.env.NEXT_PUBLIC_API_URL ||
       process.env.NEXT_PUBLIC_API ||
       "http://localhost:5000/api",
     APP_NAME:
