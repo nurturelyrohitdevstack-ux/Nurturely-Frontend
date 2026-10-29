@@ -40,11 +40,15 @@ api.interceptors.response.use(
       const logout = useAuthStore.getState().logout;
 
       try {
-        const res = await api.post("/auth/refresh-token");
+        const storedRefreshToken = useAuthStore.getState().refreshToken;
+        const res = await api.post("/auth/refresh-token", {
+          refreshToken: storedRefreshToken || undefined,
+        });
 
         login({
           user: res.data.user,
           accessToken: res.data.accessToken,
+          refreshToken: res.data.refreshToken || storedRefreshToken,
         });
 
         originalRequest.headers.Authorization = `Bearer ${res.data.accessToken}`;

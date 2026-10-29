@@ -23,10 +23,11 @@ import useAuthStore from "@/store/authStore";
 export default function DashboardView() {
   const user = useAuthStore((state) => state.user);
 
+  const tzOffset = typeof window !== "undefined" ? new Date().getTimezoneOffset() : 0;
   const { data, isLoading } = useQuery({
-    queryKey: ["dashboard-summary"],
+    queryKey: ["dashboard-summary", tzOffset],
     queryFn: async () => {
-      const res = await api.get("/dashboard/summary");
+      const res = await api.get(`/dashboard/summary?tzOffset=${tzOffset}`);
       return res.data?.metrics;
     },
     refetchInterval: 30000,
@@ -300,6 +301,11 @@ export default function DashboardView() {
                         <span className="text-[11px] text-slate-500 truncate">
                           Lead: {t.lead?.fullName || "Prospective Client"} ({t.lead?.company || "No company"})
                         </span>
+                        {t.lead?.requirements && (
+                          <span className="text-[10px] text-emerald-800 bg-emerald-50 px-1.5 py-0.2 rounded border border-emerald-100 truncate w-fit mt-0.5" title={t.lead.requirements}>
+                            Scope: {t.lead.requirements}
+                          </span>
+                        )}
                       </div>
                     </div>
                     <span className="text-[11px] font-semibold text-slate-500 shrink-0">

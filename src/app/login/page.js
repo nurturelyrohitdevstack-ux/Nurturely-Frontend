@@ -32,6 +32,7 @@ export default function LoginPage() {
         login({
           user: res.data.user,
           accessToken: res.data.accessToken,
+          refreshToken: res.data.refreshToken,
         });
         toast.success(`Welcome back, ${res.data.user.fullName}!`);
         router.replace("/dashboard");

@@ -44,9 +44,13 @@ export default function AuthProvider({ children }) {
           process.env.NEXT_PUBLIC_API ||
           "http://localhost:5001/api";
 
+        const storedRefreshToken = useAuthStore.getState().refreshToken;
+
         const res = await axios.post(
           `${apiBase}/auth/refresh-token`,
-          {},
+          {
+            refreshToken: storedRefreshToken || undefined,
+          },
           {
             withCredentials: true,
             timeout: 15000,
@@ -57,6 +61,7 @@ export default function AuthProvider({ children }) {
           login({
             user: res.data.user,
             accessToken: res.data.accessToken,
+            refreshToken: res.data.refreshToken || storedRefreshToken,
           });
         } else {
           logout();

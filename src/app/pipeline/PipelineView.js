@@ -186,6 +186,21 @@ export default function PipelineView() {
                         {lead.company || "No company"}
                       </p>
 
+                      {/* Requirements & Scope */}
+                      {lead.requirements ? (
+                        <div className="mt-2 p-2 rounded-xl bg-slate-50 border border-slate-200/60">
+                          <span className="text-[9px] font-extrabold uppercase tracking-wider text-emerald-800 bg-emerald-100 px-1.5 py-0.2 rounded inline-block mb-1">
+                            Scope
+                          </span>
+                          <p
+                            className="text-[11px] text-slate-700 line-clamp-2 leading-relaxed"
+                            title={lead.requirements}
+                          >
+                            {lead.requirements}
+                          </p>
+                        </div>
+                      ) : null}
+
                       {/* Next follow-up tag */}
                       {lead.nextFollowUpAt && (
                         <div className="mt-2 text-[10px] text-slate-500 flex items-center gap-1">

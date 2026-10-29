@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   FaPlus,
@@ -21,6 +21,13 @@ import {
   FaCalendarAlt,
   FaRupeeSign,
   FaEdit,
+  FaBolt,
+  FaInstagram,
+  FaWhatsapp,
+  FaLinkedin,
+  FaGoogle,
+  FaGlobe,
+  FaUsers,
 } from "react-icons/fa";
 import { toast } from "sonner";
 import api from "@/lib/apiInstance";
@@ -54,6 +61,50 @@ const PRIORITY_COLORS = {
   Low: "bg-slate-100 text-slate-600",
   Medium: "bg-amber-50 text-amber-700 border border-amber-200",
   High: "bg-rose-50 text-rose-700 border border-rose-200",
+};
+
+const getSourceBadgeStyle = (sourceName = "") => {
+  const s = (sourceName || "").toLowerCase();
+  if (s.includes("insta")) {
+    return {
+      bg: "bg-gradient-to-r from-fuchsia-50 to-pink-50 text-pink-700 border-pink-200",
+      icon: FaInstagram,
+    };
+  }
+  if (s.includes("whatsapp")) {
+    return {
+      bg: "bg-emerald-50 text-emerald-700 border-emerald-200",
+      icon: FaWhatsapp,
+    };
+  }
+  if (s.includes("linkedin")) {
+    return {
+      bg: "bg-sky-50 text-sky-700 border-sky-200",
+      icon: FaLinkedin,
+    };
+  }
+  if (s.includes("google")) {
+    return {
+      bg: "bg-amber-50 text-amber-700 border-amber-200",
+      icon: FaGoogle,
+    };
+  }
+  if (s.includes("website")) {
+    return {
+      bg: "bg-blue-50 text-blue-700 border-blue-200",
+      icon: FaGlobe,
+    };
+  }
+  if (s.includes("referral")) {
+    return {
+      bg: "bg-teal-50 text-teal-700 border-teal-200",
+      icon: FaUsers,
+    };
+  }
+  return {
+    bg: "bg-slate-100 text-slate-700 border-slate-200",
+    icon: FaTag,
+  };
 };
 
 const STANDARD_SOURCES = [
@@ -164,9 +215,22 @@ export default function LeadsView() {
   const [stageFilter, setStageFilter] = useState("all");
   const [priorityFilter, setPriorityFilter] = useState("all");
   const [sourceFilter, setSourceFilter] = useState("all");
+  const [createdTodayFilter, setCreatedTodayFilter] = useState(false);
   const [sortBy, setSortBy] = useState("createdAt");
   const [order, setOrder] = useState("desc");
   const [page, setPage] = useState(1);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      if (
+        params.get("createdToday") === "true" ||
+        params.get("filter") === "today"
+      ) {
+        setCreatedTodayFilter(true);
+      }
+    }
+  }, []);
 
   // Modals & Drawer states
   const [createModalOpen, setCreateModalOpen] = useState(false);
@@ -533,6 +597,8 @@ export default function LeadsView() {
   };
 
   // Query: Get Leads
+  const tzOffset =
+    typeof window !== "undefined" ? new Date().getTimezoneOffset() : 0;
   const { data, isLoading } = useQuery({
     queryKey: [
       "leads",
@@ -541,8 +607,10 @@ export default function LeadsView() {
       stageFilter,
       priorityFilter,
       sourceFilter,
+      createdTodayFilter,
       sortBy,
       order,
+      tzOffset,
     ],
     queryFn: async () => {
       const params = new URLSearchParams({
@@ -550,11 +618,13 @@ export default function LeadsView() {
         limit: "15",
         sortBy,
         order,
+        tzOffset: String(tzOffset),
       });
       if (search) params.append("search", search);
       if (stageFilter !== "all") params.append("status", stageFilter);
       if (priorityFilter !== "all") params.append("priority", priorityFilter);
       if (sourceFilter !== "all") params.append("source", sourceFilter);
+      if (createdTodayFilter) params.append("createdToday", "true");
 
       const res = await api.get(`/leads?${params.toString()}`);
       return res.data;
@@ -777,6 +847,7 @@ export default function LeadsView() {
 
   const leads = data?.leads || [];
   const pagination = data?.pagination || { total: 0, page: 1, limit: 15, pages: 1 };
+  const todayStats = data?.todayStats || { totalToday: 0, sources: [] };
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto">
@@ -801,6 +872,117 @@ export default function LeadsView() {
           <FaPlus className="text-xs" />
           <span>Add New Lead</span>
         </button>
+      </div>
+
+      {/* Today's Leads & Sources Summary Bar */}
+      <div className="academy-card p-4 sm:p-5 bg-gradient-to-br from-white via-white to-emerald-50/40 border border-slate-200/90 shadow-xs space-y-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-emerald-600 to-teal-700 text-white flex items-center justify-center text-base shadow-sm shadow-emerald-600/20 shrink-0">
+              <FaBolt />
+            </div>
+            <div>
+              <div className="flex items-center gap-2 flex-wrap">
+                <h2 className="text-sm sm:text-base font-bold text-slate-900">
+                  Leads Created Today
+                </h2>
+                <span className="px-2.5 py-0.5 rounded-full text-xs font-extrabold bg-emerald-100 text-emerald-800 border border-emerald-300">
+                  {todayStats.totalToday} {todayStats.totalToday === 1 ? "lead" : "leads"}
+                </span>
+                {createdTodayFilter && (
+                  <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-slate-900 text-white">
+                    Filter Active
+                  </span>
+                )}
+              </div>
+              <p className="text-[11px] sm:text-xs text-slate-500 mt-0.5">
+                Overview of incoming prospects added today across channels. Click a source pill to filter.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 shrink-0">
+            <button
+              onClick={() => {
+                setCreatedTodayFilter((prev) => !prev);
+                setPage(1);
+              }}
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer border ${
+                createdTodayFilter
+                  ? "bg-emerald-600 text-white border-emerald-600 shadow-xs"
+                  : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50"
+              }`}
+            >
+              <FaFilter className="text-[10px]" />
+              <span>{createdTodayFilter ? "Showing Today's Leads Only" : "View Today's Leads"}</span>
+            </button>
+            {(createdTodayFilter || sourceFilter !== "all") && (
+              <button
+                onClick={() => {
+                  setCreatedTodayFilter(false);
+                  setSourceFilter("all");
+                  setPage(1);
+                }}
+                className="text-xs text-slate-500 hover:text-rose-600 underline cursor-pointer"
+              >
+                Clear Filter
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Source breakdown pills */}
+        <div className="pt-2 border-t border-slate-100 flex items-center gap-2 flex-wrap">
+          <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider shrink-0">
+            Channels Today:
+          </span>
+
+          {todayStats.sources && todayStats.sources.length > 0 ? (
+            todayStats.sources.map((item) => {
+              const badge = getSourceBadgeStyle(item.source);
+              const Icon = badge.icon;
+              const isSelected = createdTodayFilter && sourceFilter === item.source;
+
+              return (
+                <button
+                  key={item.source}
+                  onClick={() => {
+                    if (isSelected) {
+                      setSourceFilter("all");
+                      setCreatedTodayFilter(false);
+                    } else {
+                      setSourceFilter(item.source);
+                      setCreatedTodayFilter(true);
+                      setPage(1);
+                    }
+                  }}
+                  title={`Filter by ${item.source} created today`}
+                  className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-bold border transition-all cursor-pointer ${
+                    isSelected
+                      ? "ring-2 ring-emerald-500 bg-emerald-700 text-white border-emerald-700 shadow-xs"
+                      : `${badge.bg} hover:shadow-xs`
+                  }`}
+                >
+                  <Icon className="text-xs" />
+                  <span>{item.source}</span>
+                  <span
+                    className={`px-1.5 py-0.2 rounded-full text-[10px] font-extrabold ${
+                      isSelected
+                        ? "bg-white/25 text-white"
+                        : "bg-white text-slate-800 shadow-2xs"
+                    }`}
+                  >
+                    {item.count}
+                  </span>
+                </button>
+              );
+            })
+          ) : (
+            <span className="text-xs text-slate-400 italic">
+              No leads created yet today. Click "+ Add New Lead" above to record today's inquiries.
+            </span>
+          )}
+        </div>
       </div>
 
       {/* Filter and Search Bar Controls */}
@@ -917,19 +1099,38 @@ export default function LeadsView() {
             <div className="h-12 w-12 rounded-full bg-emerald-50 text-emerald-700 mx-auto flex items-center justify-center text-xl mb-3">
               <FaFilter />
             </div>
-            <h3 className="text-sm font-bold text-slate-800">No leads in pipeline yet</h3>
+            <h3 className="text-sm font-bold text-slate-800">
+              {createdTodayFilter ? "No leads created today matching filters" : "No leads in pipeline yet"}
+            </h3>
             <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
-              Your database is clean. Click below to add a new prospective lead or apply a fast template.
+              {createdTodayFilter
+                ? "Try clearing filters or changing search criteria to view your existing pipeline."
+                : "Your database is clean. Click below to add a new prospective lead or apply a fast template."}
             </p>
-            <button
-              onClick={() => {
-                resetCreateForm();
-                setCreateModalOpen(true);
-              }}
-              className="mt-4 px-4 py-2 rounded-xl text-xs font-bold text-white bg-emerald-600 hover:opacity-95 cursor-pointer"
-            >
-              Add First Lead
-            </button>
+            {createdTodayFilter ? (
+              <button
+                onClick={() => {
+                  setCreatedTodayFilter(false);
+                  setSourceFilter("all");
+                  setStageFilter("all");
+                  setSearch("");
+                  setPage(1);
+                }}
+                className="mt-4 px-4 py-2 rounded-xl text-xs font-bold text-white bg-slate-800 hover:bg-slate-900 cursor-pointer"
+              >
+                View All Leads
+              </button>
+            ) : (
+              <button
+                onClick={() => {
+                  resetCreateForm();
+                  setCreateModalOpen(true);
+                }}
+                className="mt-4 px-4 py-2 rounded-xl text-xs font-bold text-white bg-emerald-600 hover:opacity-95 cursor-pointer"
+              >
+                Add First Lead
+              </button>
+            )}
           </div>
         ) : (
           <div className="overflow-x-auto">
@@ -937,6 +1138,7 @@ export default function LeadsView() {
               <thead>
                 <tr className="border-b border-slate-100 bg-slate-50/70 text-[11px] font-bold uppercase tracking-wider text-slate-500">
                   <th className="py-3 px-4">Lead & Company</th>
+                  <th className="py-3 px-4 min-w-[220px]">Requirements & Scope</th>
                   <th className="py-3 px-4">Stage</th>
                   <th className="py-3 px-4">Deal Value (₹)</th>
                   <th className="py-3 px-4">Source</th>
@@ -958,13 +1160,56 @@ export default function LeadsView() {
                   >
                     <td className="py-3 px-4">
                       <div className="flex flex-col min-w-0">
-                        <span className="font-bold text-slate-900 group-hover:text-emerald-700 transition-colors">
-                          {lead.fullName}
-                        </span>
+                        <div className="flex items-center gap-1.5 flex-wrap">
+                          <span className="font-bold text-slate-900 group-hover:text-emerald-700 transition-colors">
+                            {lead.fullName}
+                          </span>
+                          {lead.createdAt &&
+                            new Date(lead.createdAt).toDateString() ===
+                              new Date().toDateString() && (
+                              <span className="px-1.5 py-0.2 text-[9px] font-extrabold bg-emerald-100 text-emerald-800 rounded-md border border-emerald-200">
+                                Today
+                              </span>
+                            )}
+                        </div>
                         <span className="text-[11px] text-slate-500 truncate">
                           {lead.company || "No Company"} • {lead.email || lead.phone || "No direct contact"}
                         </span>
                       </div>
+                    </td>
+
+                    <td className="py-3 px-4 min-w-[220px] max-w-sm">
+                      {lead.requirements ? (
+                        <div className="flex flex-col gap-1">
+                          <p
+                            className="text-xs text-slate-700 font-medium line-clamp-2 leading-relaxed"
+                            title={lead.requirements}
+                          >
+                            {lead.requirements}
+                          </p>
+                          {lead.tags && lead.tags.length > 0 && (
+                            <div className="flex flex-wrap gap-1">
+                              {lead.tags.slice(0, 3).map((t, i) => (
+                                <span
+                                  key={i}
+                                  className="px-1.5 py-0.2 rounded text-[10px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-100"
+                                >
+                                  #{t}
+                                </span>
+                              ))}
+                              {lead.tags.length > 3 && (
+                                <span className="text-[10px] text-slate-400">
+                                  +{lead.tags.length - 3}
+                                </span>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      ) : (
+                        <span className="text-[11px] text-slate-400 italic">
+                          No scope defined
+                        </span>
+                      )}
                     </td>
 
                     <td className="py-3 px-4">
@@ -978,9 +1223,16 @@ export default function LeadsView() {
                     </td>
 
                     <td className="py-3 px-4 text-slate-600 font-medium">
-                      <span className="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[11px]">
-                        {lead.source || "Website"}
-                      </span>
+                      {(() => {
+                        const sb = getSourceBadgeStyle(lead.source);
+                        const SIcon = sb.icon;
+                        return (
+                          <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md border text-[11px] font-semibold ${sb.bg}`}>
+                            <SIcon className="text-[10px]" />
+                            <span>{lead.source || "Website"}</span>
+                          </span>
+                        );
+                      })()}
                     </td>
 
                     <td className="py-3 px-4">

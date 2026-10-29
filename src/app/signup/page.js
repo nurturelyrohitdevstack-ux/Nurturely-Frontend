@@ -150,6 +150,7 @@ export default function SignUpPage() {
         login({
           user: res.data.user,
           accessToken: res.data.accessToken,
+          refreshToken: res.data.refreshToken,
         });
         toast.success(`Account created! Welcome to Nurturely, ${res.data.user.fullName}!`);
         router.replace("/dashboard");
